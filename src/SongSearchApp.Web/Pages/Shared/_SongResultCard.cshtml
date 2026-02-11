@@ -1,0 +1,47 @@
+@model SongSearchApp.Models.Application.SongData
+
+<div class="d-flex gap-3 align-items-center">
+    @if (!string.IsNullOrWhiteSpace(Model.ArtworkUrl))
+    {
+        <img src="@Model.ArtworkUrl" alt="@Model.AlbumName" width="80" height="80" class="rounded" />
+    }
+    <div class="flex-grow-1">
+        <div class="fw-semibold">@Model.Title</div>
+        <div class="text-muted small">
+            @Model.ArtistName
+            @if (!string.IsNullOrWhiteSpace(Model.AlbumName))
+            {
+                <span> - </span>
+                if (Model.CollectionId.HasValue)
+                {
+                    <a asp-page="/Album" asp-route-CollectionId="@Model.CollectionId" class="text-decoration-none">@Model.AlbumName</a>
+                }
+                else
+                {
+                    <span>@Model.AlbumName</span>
+                }
+            }
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Genre) || Model.DurationMs.HasValue)
+        {
+            <div class="text-muted small">
+                @if (!string.IsNullOrWhiteSpace(Model.Genre))
+                {
+                    <span>@Model.Genre</span>
+                }
+                @if (Model.DurationMs.HasValue)
+                {
+                    if (!string.IsNullOrWhiteSpace(Model.Genre))
+                    {
+                        <span> - </span>
+                    }
+                    <span>@TimeSpan.FromMilliseconds(Model.DurationMs.Value).ToString("mm':'ss")</span>
+                }
+            </div>
+        }
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.PreviewUrl))
+    {
+        <a class="btn btn-outline-secondary btn-sm" href="@Model.PreviewUrl" target="_blank" rel="noopener">Preview</a>
+    }
+</div>

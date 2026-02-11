@@ -1,0 +1,37 @@
+@page
+@model AlbumModel
+@{
+    ViewData["Title"] = "Album";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-5 mb-3">Album</h1>
+            @if (Model.CollectionId is null)
+            {
+                <div class="alert alert-secondary" role="alert">
+                    No album selected.
+                </div>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <div class="fw-semibold">@(!string.IsNullOrWhiteSpace(Model.AlbumName) ? Model.AlbumName : $"Album {Model.CollectionId}")</div>
+                    <div class="text-muted small">Tracks</div>
+                </div>
+
+                if (Model.Tracks.Count == 0)
+                {
+                    <div class="alert alert-secondary" role="alert">
+                        No tracks found.
+                    </div>
+                }
+                else
+                {
+                    <partial name="_SongResultsList" model="Model.Tracks" />
+                }
+            }
+        </div>
+    </div>
+</div>
